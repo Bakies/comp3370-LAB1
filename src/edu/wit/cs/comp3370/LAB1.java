@@ -16,8 +16,26 @@ public class LAB1 {
 
 	// TODO: document this method
 	public static int[] countingSort(int[] a) {
-		//TODO: implement this method
-		return null;
+		int max = 0;
+		for (int x : a) {
+			max = Math.max(x, max);
+		}
+		max ++;
+		
+		System.out.println("Max: " + max);
+		int[] histogram = new int[max];
+		
+		for (int x : a)
+			histogram[x]++;
+		
+		int i = 0; 
+		for (int x = 0; x < histogram.length; x ++)
+			for (int y = 0; y < histogram[x]; y ++) {
+				a[i] = x;
+				i ++;
+			}
+		
+		return a;
 	}
 
 	// TODO: document this method

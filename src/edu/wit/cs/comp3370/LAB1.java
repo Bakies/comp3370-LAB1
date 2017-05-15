@@ -40,8 +40,48 @@ public class LAB1 {
 
 	// TODO: document this method
 	public static int[] radixSort(int[] a) {
-		// TODO: implement this method
-		return null;
+		if (a.length == 0) 
+			return a;
+		int max = Integer.MIN_VALUE;
+		for (int x : a) { 
+			max = Math.max(x, max);
+		}
+		
+		int digit = 1;
+		while (max / digit > 0) { 
+			int[][] arrs = new int[10][];
+
+			for (int x = 0; x < 10; x ++) { 
+				arrs[x] = new int[0];
+			}
+			
+			for (int x : a) {
+				int index = (x / digit) % 10;
+				int[] old = arrs[index]; 
+				arrs[index] = new int[old.length + 1]; 
+				for (int y = 0; y < old.length; y ++){
+					arrs[index][y] = old[y]; 
+				}
+				arrs[index][old.length] = x;
+					
+			}
+
+			int index = 0; 
+			for (int[] d : arrs)
+				for (int x : d) { 
+					System.out.println("Adding " + x);
+					a[index] = x;
+					index ++;
+				}
+			
+			for (int x : a) {
+				System.out.print(x + ", ");
+			}
+			
+			digit *= 10;
+		}
+		
+		return a;
 	}
 
 	/********************************************

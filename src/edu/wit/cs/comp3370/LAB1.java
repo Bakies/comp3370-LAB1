@@ -69,14 +69,9 @@ public class LAB1 {
 			int index = 0; 
 			for (int[] d : arrs)
 				for (int x : d) { 
-					System.out.println("Adding " + x);
 					a[index] = x;
 					index ++;
 				}
-			
-			for (int x : a) {
-				System.out.print(x + ", ");
-			}
 			
 			digit *= 10;
 		}

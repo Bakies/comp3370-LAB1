@@ -14,7 +14,15 @@ import java.util.ArrayList;
 
 public class LAB1 {
 
-	// TODO: document this method
+	/** 
+	 * Counting sort creates an array from 0 to the max in the
+	 * provided list to be sorted. It then runs through the 
+	 * provided array and uses the numbers as the index value
+	 * and adds one in the created array.
+ 	 * Using the created array it over writes the provided array
+ 	 * by concatenation the index number the amount of times as 
+ 	 * the value at that index 
+ 	 */  
 	public static int[] countingSort(int[] a) {
 		int max = 0;
 		for (int x : a) {
@@ -38,7 +46,17 @@ public class LAB1 {
 		return a;
 	}
 
-	// TODO: document this method
+	/** 
+	 * Creates 10 arrays in a 2D array.
+	 * Goes through the provided array and adds the numbers to the
+	 * array at the index of that number based on the digit in the 
+	 * 1s place. 
+	 * Reorganizes the original list by for through the 2D array in
+	 * order. 
+	 * Repeats this process for the 10s place and then 100s and so on
+	 * until the max in the provided list is greater than the max divided
+	 * by the power of 10.
+	 */
 	public static int[] radixSort(int[] a) {
 		if (a.length == 0) 
 			return a;

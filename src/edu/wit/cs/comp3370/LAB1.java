@@ -1,8 +1,8 @@
 package edu.wit.cs.comp3370;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 /* Sorts integers from command line using various algorithms 
  * 
@@ -14,86 +14,74 @@ import java.util.ArrayList;
 
 public class LAB1 {
 
-	/** 
-	 * Counting sort creates an array from 0 to the max in the
-	 * provided list to be sorted. It then runs through the 
-	 * provided array and uses the numbers as the index value
-	 * and adds one in the created array.
- 	 * Using the created array it over writes the provided array
- 	 * by concatenation the index number the amount of times as 
- 	 * the value at that index 
- 	 */  
+	/**
+	 * Counting sort creates an array from 0 to the max in the provided list to
+	 * be sorted. It then runs through the provided array and uses the numbers
+	 * as the index value and adds one in the created array. Using the created
+	 * array it over writes the provided array by concatenation the index number
+	 * the amount of times as the value at that index
+	 */
 	public static int[] countingSort(int[] a) {
 		int max = 0;
 		for (int x : a) {
 			max = Math.max(x, max);
 		}
-		max ++;
-		
+		max++;
+
 		System.out.println("Max: " + max);
 		int[] histogram = new int[max];
-		
+
 		for (int x : a)
 			histogram[x]++;
-		
-		int i = 0; 
-		for (int x = 0; x < histogram.length; x ++)
-			for (int y = 0; y < histogram[x]; y ++) {
+
+		int i = 0;
+		for (int x = 0; x < histogram.length; x++)
+			for (int y = 0; y < histogram[x]; y++) {
 				a[i] = x;
-				i ++;
+				i++;
 			}
-		
+
 		return a;
 	}
 
-	/** 
-	 * Creates 10 arrays in a 2D array.
-	 * Goes through the provided array and adds the numbers to the
-	 * array at the index of that number based on the digit in the 
-	 * 1s place. 
-	 * Reorganizes the original list by for through the 2D array in
-	 * order. 
-	 * Repeats this process for the 10s place and then 100s and so on
-	 * until the max in the provided list is greater than the max divided
-	 * by the power of 10.
+	/**
+	 * Performs a counting sort digit by digit, starting at the least
+	 * significant
+	 * 
+	 * @param a
+	 * @return
 	 */
 	public static int[] radixSort(int[] a) {
-		if (a.length == 0) 
+		if (a.length <= 1)
 			return a;
 		int max = Integer.MIN_VALUE;
-		for (int x : a) { 
+		for (int x : a)
 			max = Math.max(x, max);
-		}
-		
-		int digit = 1;
-		while (max / digit > 0) { 
-			int[][] arrs = new int[10][];
 
-			for (int x = 0; x < 10; x ++) { 
-				arrs[x] = new int[0];
-			}
-			
-			for (int x : a) {
-				int index = (x / digit) % 10;
-				int[] old = arrs[index]; 
-				arrs[index] = new int[old.length + 1]; 
-				for (int y = 0; y < old.length; y ++){
-					arrs[index][y] = old[y]; 
+		for (int digit = 1; max / digit > 0; digit *= 10) {
+			int[] count = new int[10];
+			int[] pos = new int[a.length];
+
+			int tot = 0;
+			for (int x = 0; x < 10; x++) {
+				for (int y = 0; y < a.length; y++) { // This feels inefficient
+														// to me
+					int d = (a[y] / digit) % 10;
+					if (d != x)
+						continue;
+					count[x]++;
+					pos[y] = tot;
+					tot++;
 				}
-				arrs[index][old.length] = x;
-					
 			}
 
-			int index = 0; 
-			for (int[] d : arrs)
-				for (int x : d) { 
-					a[index] = x;
-					index ++;
-				}
-			
-			digit *= 10;
+			int[] output = new int[a.length];
+			for (int x = 0; x < output.length; x++) {
+				output[pos[x]] = a[x];
+			}
+			a = output;
 		}
-		
+
 		return a;
 	}
 
@@ -112,18 +100,21 @@ public class LAB1 {
 		for (int i = 1; i < a.length; i++) {
 			int tmp = a[i];
 			int j;
-			for (j = i-1; j >= 0 && tmp < a[j]; j--)
-				a[j+1] = a[j];
-			a[j+1] = tmp;
+			for (j = i - 1; j >= 0 && tmp < a[j]; j--)
+				a[j + 1] = a[j];
+			a[j + 1] = tmp;
 		}
 
 		return a;
 	}
 
-	/* Implementation note: The sorting algorithm is a Dual-Pivot Quicksort by Vladimir Yaroslavskiy,
-	 *  Jon Bentley, and Joshua Bloch. This algorithm offers O(n log(n)) performance on many data 
-	 *  sets that cause other quicksorts to degrade to quadratic performance, and is typically 
-	 *  faster than traditional (one-pivot) Quicksort implementations. */
+	/*
+	 * Implementation note: The sorting algorithm is a Dual-Pivot Quicksort by
+	 * Vladimir Yaroslavskiy, Jon Bentley, and Joshua Bloch. This algorithm
+	 * offers O(n log(n)) performance on many data sets that cause other
+	 * quicksorts to degrade to quadratic performance, and is typically faster
+	 * than traditional (one-pivot) Quicksort implementations.
+	 */
 	public static int[] systemSort(int[] a) {
 		Arrays.sort(a);
 		return a;
@@ -146,7 +137,7 @@ public class LAB1 {
 	// copies an ArrayList of Integer to an array of int
 	private static int[] toIntArray(ArrayList<Integer> a) {
 		int[] ret = new int[a.size()];
-		for(int i = 0; i < ret.length; i++)
+		for (int i = 0; i < ret.length; i++)
 			ret[i] = a.get(i);
 		return ret;
 	}
